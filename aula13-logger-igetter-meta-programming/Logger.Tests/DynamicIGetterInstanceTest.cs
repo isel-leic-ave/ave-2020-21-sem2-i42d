@@ -7,7 +7,7 @@ namespace Logger.Tests
 {
     public class DynamicIGetterInstanceTest
     {
-        DynamicIGetterInstanceCreator dynamicIGetterInstanceCreator = new DynamicIGetterInstanceCreator();
+        static DynamicIGetterInstanceCreator dynamicIGetterInstanceCreator = new DynamicIGetterInstanceCreator();
 
         Student s1 = new Student(154134, "Ze Manel", 5243, "ze");
 
@@ -21,6 +21,18 @@ namespace Logger.Tests
             Assert.NotNull(getter);
             Assert.Equal("nr", getter.GetName());
             Assert.Equal(s1.nr, (int)getter.GetValue(s1));
+        }
+
+        [Fact]
+        public void TestGenerateIGetterForStudentName()
+        {
+            // Arrange
+            IGetter getter = dynamicIGetterInstanceCreator.CreateIGetterFor(typeof(Student), "name");
+
+            // // Asserts
+            Assert.NotNull(getter);
+            Assert.Equal("name", getter.GetName());
+            Assert.Equal(s1.name, (string)getter.GetValue(s1));
         }
     }
 }

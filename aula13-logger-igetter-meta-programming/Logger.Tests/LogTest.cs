@@ -30,7 +30,7 @@ namespace Logger.Tests
 
             // Assert
             Assert.Equal(
-                "GetModule: 11,40175425099138, x: 7",
+                "GetModule: 11,4017542509914, x: 7",
                 printer.buffer.ToString()
             );
         }

@@ -12,7 +12,7 @@ public class DynamicIGetterInstanceCreator
     {
         assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(
             assemblyName,
-            AssemblyBuilderAccess.Run);
+            AssemblyBuilderAccess.RunAndSave);
 
         // For a single-module assembly, the module name is usually
         // the assembly name plus an extension.
