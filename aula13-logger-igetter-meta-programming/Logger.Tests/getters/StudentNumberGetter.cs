@@ -1,4 +1,4 @@
-abstract class StudentNumberGetter : GetterBase { 
+public class StudentNumberGetter : GetterBase { 
    public StudentNumberGetter() : base("nr") { 
    }
 

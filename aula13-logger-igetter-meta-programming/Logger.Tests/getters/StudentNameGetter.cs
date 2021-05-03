@@ -6,6 +6,5 @@ public class StudentNameGetter : GetterBase
 
     public override object GetValue(object target) {
         return ((Student)target).name;
-
     }
 }
