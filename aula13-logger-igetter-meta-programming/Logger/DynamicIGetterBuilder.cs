@@ -2,13 +2,13 @@
 using System.Reflection;
 using System.Reflection.Emit;
 
-public class DynamicIGetterInstanceCreator
+public class DynamicIGetterBuilder
 {
     AssemblyName assemblyName = new AssemblyName("DynamicIGetters");
     private AssemblyBuilder assemblyBuilder;
     private ModuleBuilder moduleBuilder;
 
-    public DynamicIGetterInstanceCreator()
+    public DynamicIGetterBuilder()
     {
         assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(
             assemblyName,
@@ -17,10 +17,9 @@ public class DynamicIGetterInstanceCreator
         // For a single-module assembly, the module name is usually
         // the assembly name plus an extension.
         moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name, assemblyName.Name + ".dll");
-
     }
 
-    ~DynamicIGetterInstanceCreator()
+    ~DynamicIGetterBuilder()
     {
         Console.WriteLine("Creating " + assemblyName);
         assemblyBuilder.Save(assemblyName + ".dll");

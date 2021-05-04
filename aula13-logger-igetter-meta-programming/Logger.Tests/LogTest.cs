@@ -1,5 +1,5 @@
 using System;
-using Xunit;
+using NUnit.Framework;
 using Logger;
 using System.Text;
 
@@ -15,9 +15,10 @@ namespace Logger.Tests
         }
     }
 
+    [TestFixture]
     public class LogTest
     {
-        [Fact]
+        [Test]
         public void TestLogInfo()
         {
             // Arrange
@@ -29,8 +30,8 @@ namespace Logger.Tests
             log.Info(p);
 
             // Assert
-            Assert.Equal(
-                "GetModule: 11,4017542509914, x: 7",
+            Assert.AreEqual(
+                "GetModule: 11.4017542509914, x: 7",
                 printer.buffer.ToString()
             );
         }

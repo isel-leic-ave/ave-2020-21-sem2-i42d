@@ -1,17 +1,19 @@
 using System;
-using Xunit;
+//using Xunit;
+using NUnit.Framework;
 using Logger;
 using System.Text;
 
 namespace Logger.Tests
 {
-    public class DynamicIGetterInstanceTest
+    [TestFixture]
+    public class DynamicIGetterBuilderTest
     {
-        static DynamicIGetterInstanceCreator dynamicIGetterInstanceCreator = new DynamicIGetterInstanceCreator();
+        static DynamicIGetterBuilder dynamicIGetterInstanceCreator = new DynamicIGetterBuilder();
 
         Student s1 = new Student(154134, "Ze Manel", 5243, "ze");
 
-        [Fact]
+        [Test]
         public void TestGenerateIGetterForStudentNumber()
         {
             // Arrange
@@ -19,11 +21,11 @@ namespace Logger.Tests
 
             // // Asserts
             Assert.NotNull(getter);
-            Assert.Equal("nr", getter.GetName());
-            Assert.Equal(s1.nr, (int)getter.GetValue(s1));
+            Assert.AreEqual("nr", getter.GetName());
+            Assert.AreEqual(s1.nr, (int)getter.GetValue(s1));
         }
 
-        [Fact]
+        [Test]
         public void TestGenerateIGetterForStudentName()
         {
             // Arrange
@@ -31,8 +33,8 @@ namespace Logger.Tests
 
             // // Asserts
             Assert.NotNull(getter);
-            Assert.Equal("name", getter.GetName());
-            Assert.Equal(s1.name, (string)getter.GetValue(s1));
+            Assert.AreEqual("name", getter.GetName());
+            Assert.AreEqual(s1.name, (string)getter.GetValue(s1));
         }
     }
 }
