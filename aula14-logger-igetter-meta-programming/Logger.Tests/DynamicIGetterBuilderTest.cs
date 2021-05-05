@@ -17,7 +17,7 @@ namespace Logger.Tests
         public void TestGenerateIGetterForStudentNumber()
         {
             // Arrange
-            IGetter getter = dynamicIGetterInstanceCreator.CreateIGetterFor(typeof(Student), "nr");
+            IGetter getter = dynamicIGetterInstanceCreator.CreateIGetterForField(typeof(Student), "nr");
 
             // // Asserts
             Assert.NotNull(getter);
@@ -29,7 +29,7 @@ namespace Logger.Tests
         public void TestGenerateIGetterForStudentName()
         {
             // Arrange
-            IGetter getter = dynamicIGetterInstanceCreator.CreateIGetterFor(typeof(Student), "name");
+            IGetter getter = dynamicIGetterInstanceCreator.CreateIGetterForField(typeof(Student), "name");
 
             // // Asserts
             Assert.NotNull(getter);

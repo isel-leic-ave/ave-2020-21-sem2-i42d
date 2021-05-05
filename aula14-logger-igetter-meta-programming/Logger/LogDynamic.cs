@@ -8,12 +8,11 @@ namespace Logger
         private DynamicIGetterBuilder gettetBuilder = DynamicIGetterBuilder.Instance;
         public LogDynamic() : base() { }
         protected override IGetter CreateGetterField(FieldInfo field) {
-            return gettetBuilder.CreateIGetterFor(field.DeclaringType, field.Name);
+            return gettetBuilder.CreateIGetterFor(field);
             
         }
         protected override IGetter CreateGetterMethod(MethodInfo method) {
-            // TODO: Create a Getter method instance from a dynamic type
-            return new GetterMethod(method);
+            return gettetBuilder.CreateIGetterFor(method);
         }
 
     }

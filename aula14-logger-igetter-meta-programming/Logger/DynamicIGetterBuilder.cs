@@ -30,13 +30,22 @@ public class DynamicIGetterBuilder
         assemblyBuilder.Save(assemblyName + ".dll");
     }
 
-    public IGetter CreateIGetterFor(Type targetType, string memberName)
+    public IGetter CreateIGetterForField(Type targetType, string memberName)
     {
         Type getterType = BuildDynamicGetterTypeFor(targetType, memberName);
         IGetter getter = (IGetter)Activator.CreateInstance(getterType, new object[] {  });
         return getter;
     }
 
+    public IGetter CreateIGetterFor(FieldInfo fieldInfo)
+    {
+        return CreateIGetterForField(fieldInfo.DeclaringType, fieldInfo.Name);
+    }
+
+    public IGetter CreateIGetterFor(MethodInfo methodInfo)
+    {
+        throw new NotImplementedException();
+    }
 
     private Type BuildDynamicGetterTypeFor(Type targetType, string memberName) {
         string typeName = targetType.Name + memberName + "Getter";
