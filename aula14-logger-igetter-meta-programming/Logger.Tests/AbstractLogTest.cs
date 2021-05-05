@@ -6,7 +6,7 @@ using System.Text;
 namespace Logger.Tests
 {
 
-    class BufferPrinter : IPrinter
+    class BufferedPrinter : IPrinter
     {
         public StringBuilder buffer = new StringBuilder();
         public void Print(string output)
@@ -16,15 +16,17 @@ namespace Logger.Tests
     }
 
     [TestFixture]
-    public class LogTest
+    public abstract class AbstractLogTest
     {
+        protected abstract AbstractLog CreateLog(IPrinter printer);
+
         [Test]
         public void TestLogInfo()
         {
             // Arrange
+            BufferedPrinter printer = new BufferedPrinter();
+            AbstractLog log = CreateLog(printer);
             Point p = new Point(7,9);
-            BufferPrinter printer = new BufferPrinter();
-            Log log = new Log(printer);
 
             // Act
             log.Info(p);

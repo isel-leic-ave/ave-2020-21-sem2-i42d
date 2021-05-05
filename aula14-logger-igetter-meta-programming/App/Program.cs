@@ -20,7 +20,7 @@ namespace App
             //
             // Logging
             //
-            Log l = new Log();
+            LogReflection l = new LogReflection();
             l.Info(p);
             l.Info(s1);
             l.Info(a);

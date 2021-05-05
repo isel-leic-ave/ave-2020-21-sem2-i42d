@@ -8,7 +8,8 @@ public class DynamicIGetterBuilder
     private AssemblyBuilder assemblyBuilder;
     private ModuleBuilder moduleBuilder;
 
-    public DynamicIGetterBuilder()
+    private static DynamicIGetterBuilder instance = new DynamicIGetterBuilder();
+    private DynamicIGetterBuilder()
     {
         assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(
             assemblyName,
@@ -17,6 +18,10 @@ public class DynamicIGetterBuilder
         // For a single-module assembly, the module name is usually
         // the assembly name plus an extension.
         moduleBuilder = assemblyBuilder.DefineDynamicModule(assemblyName.Name, assemblyName.Name + ".dll");
+    }
+
+    public static DynamicIGetterBuilder Instance { 
+        get  { return instance; }
     }
 
     ~DynamicIGetterBuilder()

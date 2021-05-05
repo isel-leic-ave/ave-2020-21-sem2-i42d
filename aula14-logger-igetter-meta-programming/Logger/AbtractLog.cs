@@ -6,24 +6,22 @@ using System.Text;
 
 namespace Logger
 {
-    public class Log
-    {
+    public abstract class AbstractLog  {
 
         private readonly IPrinter printer; 
         private readonly Dictionary<Type, List<IGetter>> members = new Dictionary<Type, List<IGetter>>();
 
-        public Log(IPrinter p)
+        public AbstractLog(IPrinter p)
         {
             printer = p;
         }
 
-        public Log() : this(new ConsolePrinter())
+        public AbstractLog() : this(new ConsolePrinter())
         {
             
         }
 
-        public void Info(object o)
-        {
+        public void Info(object o)  {
             //
             // Check if o is an IEnumerable
             //
@@ -78,10 +76,10 @@ namespace Logger
             if(!members.TryGetValue(t, out ms)) {
                 ms = new List<IGetter>();
                 foreach(MemberInfo m in t.GetMembers()) {
-                    IGetter im;
-                    if(ShouldLog(m, out im))
+                    IGetter getter;
+                    if(ShouldLog(m, out getter))
                     {
-                        ms.Add(im);
+                        ms.Add(getter);
                     }
                 }
                 members.Add(t, ms);
@@ -106,7 +104,7 @@ namespace Logger
              */
             if(m.MemberType == MemberTypes.Field)
             {
-                getter = new GetterField((FieldInfo) m);
+                getter = CreateGetterField((FieldInfo) m);
                 return true;
             }
             /**
@@ -114,27 +112,15 @@ namespace Logger
              */
             if(m.MemberType == MemberTypes.Method  && (m as MethodInfo).GetParameters().Length == 0)
             {
-                getter = new GetterMethod((MethodInfo) m);
+                getter = CreateGetterMethod((MethodInfo) m);
                 return true;
             }
             return false;
         }
-        
-        /// Suppressed in optimized version of Logger
-        /*
-        private object GetValue(object target, MemberInfo m) {
-            switch(m.MemberType)
-            {
-                case MemberTypes.Field:
-                    return (m as FieldInfo).GetValue(target);
-                case MemberTypes.Method: 
-                    return (m as MethodInfo).Invoke(target, null);
-                default:
-                    throw new InvalidOperationException("Non properly member for logging!");
-            }
-        }
-        */
 
+        protected abstract IGetter CreateGetterField(FieldInfo field);
+        protected abstract IGetter CreateGetterMethod(MethodInfo method);
+        
         private class ConsolePrinter : IPrinter
         {
             public void Print(string output)

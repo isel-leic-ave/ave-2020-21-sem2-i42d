@@ -9,7 +9,7 @@ namespace Logger.Tests
     [TestFixture]
     public class DynamicIGetterBuilderTest
     {
-        static DynamicIGetterBuilder dynamicIGetterInstanceCreator = new DynamicIGetterBuilder();
+        DynamicIGetterBuilder dynamicIGetterInstanceCreator = DynamicIGetterBuilder.Instance;
 
         Student s1 = new Student(154134, "Ze Manel", 5243, "ze");
 
