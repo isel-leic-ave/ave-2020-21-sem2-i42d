@@ -1,0 +1,19 @@
+Primeiro que tudo foi criada a interface IFormatter na pasta Logger.
+
+Foram criadas as duas classes LogFormatterFirstName e LogFormatterTruncate na pasta App, para usar nas anotações das classes Point e Student tal como indicado no enunciado.
+
+Foi criado também um DefaultFormatter na pasta Logger, para usar quando não é especificado o IFormatter nas anotações dos membros das classes.
+
+Uma vez que as anotações passam a receber um tipo como argumento (e parâmetros opcionais), foi criado um construtor na classe ToLogAttribute para suportar esta funcionalidade. Neste construtor é feita uma verificação se o Type recebido implementa a interface IFormatter e em caso afirmativo é criada e guardada uma instância deste formatter.
+
+Uma vez que apenas era permitido redefinir o ShouldLog e implementar novas classes, o passo seguinte passou por criar duas novas classes, GetterFieldFormat e GetterMethodFormat, que recebem no seu construtor o FieldInfo/MethodInfo (como já estava no GetterField e GetterMethod) mas também o IFormatter a utilizar. O método GetValue destas duas classes retorna o valor já formatado.
+
+Assim, resta apenas o novo ShouldLog, que será bastante semelhante ao que se encontra na classe AbstractLog. Será necessário usar o formatter especificado na anotação, e para isso é feito um GetCustomAttribute para obter a instância do ToLogAttribute. Obtida esta instãncia, consegue-se obter diretamente o IFormatter que lhe está associada. Resta apenas substituir a criação de GetterField e GetterMethod por GetterFieldFormat e GetterMethodFormat, passando como argumento o IFormatter do atributo que foi obtido anteriormente.
+
+No Zip está incluída uma imagem com o output do programa usado para testar, primeiro usando apenas [ToLog] e depois especificando o tipo de IFormatter a usar.
+
+Notas: 
+- Apesar de ser dito que não era permitido modificar o AbstractLog, para fazer override do método ShouldLog na classe Log, foi necessário declarar o ShouldLog da classe AbstractLog como virtual.
+- Apesar de no enunciado a anotação na classe Point ter como parâmetro uma string - [ToLog(typeof(LogFormatterTruncate), "1")] - , esta foi alterada para ter um int - [ToLog(typeof(LogFormatterTruncate), 1)]. Eu penso que isto foi uma gralha, pois o construtor de LogFormatterTruncate recebe um int, e com a primeira anotação não era encontrado nenhum construtor que satisfizesse os parâmetros passados.
+
+Alexandre Santos Rocha A44789
