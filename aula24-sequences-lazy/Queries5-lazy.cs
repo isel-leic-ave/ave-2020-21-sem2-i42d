@@ -4,7 +4,7 @@ using System.Text;
 using System.IO;
 
 
-class AppQueries4 {
+class AppQueries5 {
 
     static IEnumerable Lines(string path)
     {
@@ -23,27 +23,16 @@ class AppQueries4 {
     static IEnumerable Convert(IEnumerable src, FunctionDelegate mapper) {
         return new ConvertIEnumerable(src, mapper);
     }
-    
-    static IEnumerable Filter(IEnumerable stds, PredicateDelegate pred) {
-        IList res = new ArrayList();
-        foreach (object o in stds) {
-            if (pred(o)) 
-                res.Add(o);
-        }
-        return res;
+
+    static IEnumerable Filter(IEnumerable src, PredicateDelegate pred) {
+        return new FilterIEnumerable(src, pred);
     }
 
     static IEnumerable Distinct(IEnumerable src) {
         return src;
     }
     
-    
-    /**
-     * Representa o domínio e o cliente App
-     */
- 
-    static void Main()
-    {
+    public static void Run() {
         IEnumerable names =
             Distinct(
                 Convert(              // Seq<String>
@@ -51,15 +40,18 @@ class AppQueries4 {
                         Filter(       // Seq<Student>
                             Convert(  // Seq<Student> 
                                 Lines("isel-AVE-2021.txt"),  // Seq<String>
-                                o =>  { 
-                                    object ret = Student.Parse((string) o); 
-                                    Console.WriteLine("Convert function called with returned {0}", ret); return ret;  
+                                o => {
+                                    Console.WriteLine("Convert");
+                                    return Student.Parse((string) o);
                                 }),
-                            o => ((Student) o).Number > 47000),
+                            o => {
+                                    Console.WriteLine("Filter");
+                                    return ((Student) o).Number > 47000;
+                            }),
                         o => ((Student) o).Name.Split(" ")[0].StartsWith("D")),
                     o => ((Student) o).Name.Split(" ")[0])
                 ); // Distinct
-    
+
         foreach(object l in names)
             Console.WriteLine(l);
     }
